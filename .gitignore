@@ -1,0 +1,47 @@
+.DS_Store
+*.orig
+*.class
+*.jar
+*.ext
+*.bin
+*.bak
+*.db
+*.exe
+
+# Node.js
+node_modules/
+npm-debug.log
+coverage/*
+
+# Gradle
+.gradle
+build/
+bin/
+!gradle-wrapper.jar
+
+# Eclipse
+.classpath
+.project
+.settings
+.launches
+test-output/*
+.checkstyle
+.eclipse-pmd
+.tern-project
+
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# algos
+gradle.properties
+build.properties
+test.properties
+client.properties
+config.ts
+appengine-web.xml
+appengine-generated
+
+
+!.gitkeep
