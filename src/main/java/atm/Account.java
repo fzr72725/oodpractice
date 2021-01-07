@@ -44,14 +44,5 @@ public class Account {
         destAccount.deposit(sourceWithdrawal);
         return transferAmount;
     }
-//    public int transfer(String accountNumber, Account destAccount, int transferAmount) {
-//        if (!cannotOperate(accountNumber)) {
-//            Account sourceAccount = accounts.get(accountNumber);
-//            int sourceWithdrawal = sourceAccount.withdraw(transferAmount);
-//            destAccount.deposit(sourceWithdrawal);
-//            return transferAmount;
-//        }
-//        return -1;
-//    }
 }
 
