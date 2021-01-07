@@ -1,9 +1,6 @@
 package atm;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Customer extends Person {
     /**
@@ -21,62 +18,27 @@ public class Customer extends Person {
     // withdraw(accountNumber, amount);
     // deposit(accountNumber, amount)
     // transfer(accountNumber, destAccountNumber, amount)
-    private Map<String, Account> accounts;
-    private final Map<String, Account> accountsImmutable = Collections.unmodifiableMap(accounts);
+    private String customerId;
+    private Set<String> accountNumbers;
+    private Database db = Database.getInstance();
+    //private List<String> accountsImmutable = Collections.unmodifiableMap(accounts);
 
-    public Customer(String name, String idNumber) {
+    public Customer(String name, String idNumber, String customerId) {
         super(name, idNumber);
-        accounts = new HashMap<>();
+        this.customerId = customerId;
+        accountNumbers = new HashSet<>();
     }
 
-    public void addAccount(Account newAccount) {
-        accounts.put(newAccount.getAccountNumber(), newAccount);
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void deposit(String accountNumber, int depositAmount) {
-        if (!cannotOperate(accountNumber)) {
-            Account account = accounts.get(accountNumber);
-            Transaction.getInstance().deposit(account, depositAmount);
-        }
+    public void addAccount(String newAccountNumber) {
+        accountNumbers.add(newAccountNumber);
     }
 
-    public int withdraw(String accountNumber, int withdrawAmount) {
-        if (!cannotOperate(accountNumber)) {
-            Account account = accounts.get(accountNumber);
-            Transaction.getInstance().withdraw(account, withdrawAmount);
-            return withdrawAmount;
-        }
-        return -1;
-    }
-
-    public int inquiry(String accountNumber) {
-        if (!cannotOperate(accountNumber)) {
-            Account account = accounts.get(accountNumber);
-            return Transaction.getInstance().inquiry(account);
-        }
-        return -1;
-    }
-
-    public int transfer(String accountNumber, Account destAccount, int transferAmount) {
-        if (!cannotOperate(accountNumber)) {
-            Account sourceAccount = accounts.get(accountNumber);
-            return Transaction.getInstance().transfer(sourceAccount, destAccount, transferAmount);
-        }
-        return -1;
-    }
-
-    private boolean cannotOperate(String accountNumber) {
-        if (accountNumber == null || accountNumber.isEmpty()) {
-            throw new IllegalArgumentException("Invalid account number! ");
-        }
-        if (accountNotExist(accountNumber)) {
-            throw new IllegalArgumentException("Account number does not exist!");
-        }
-        return true;
-    }
-
-    private boolean accountNotExist(String accountNumber) {
-        return accounts.containsKey(accountNumber);
+    protected boolean accountNotExist(String accountNumber) {
+        return accountNumbers.contains(accountNumber);
     }
 
     @Override
@@ -85,12 +47,14 @@ public class Customer extends Person {
             return false;
         }
         Customer anotherCustomer= (Customer) anotherObj;
-        return super.equals(anotherObj) && Objects.equals(accounts, anotherCustomer.accounts);
+        return super.equals(anotherObj) &&
+                Objects.equals(accountNumbers, anotherCustomer.accountNumbers) &&
+                Objects.equals(customerId, anotherCustomer.customerId);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode() + Objects.hash(accounts);
+        return super.hashCode() + Objects.hash(accountNumbers, customerId);
     }
 
 }

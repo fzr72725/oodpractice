@@ -4,19 +4,33 @@ import java.util.Objects;
 
 public class PersonalBanker extends Person{
     private final String employeeId;
+    private Database db = Database.getInstance();
 
     public PersonalBanker(String name, String idNumber, String employeeId) {
         super(name, idNumber);
         this.employeeId = employeeId;
     }
 
-    public void openAccount(Customer customer) {
-        String accountNumber = generateAccountNumber();
-        Account newAccount = new Account(accountNumber);
-        customer.addAccount(newAccount);
+    public String registerCustomer(String name, String idNumber) {
+        String newCustomerId = generateCustomerId();
+        Customer newCustomer = new Customer(name, idNumber, newCustomerId);
+        db.addCustomer(newCustomer);
+        return newCustomerId;
+    }
+
+    public String openAccount(Customer customer) {
+        String newAccountNumber = generateAccountNumber();
+        Account newAccount = new Account(newAccountNumber);
+        db.addAccount(newAccount);
+        customer.addAccount(newAccountNumber);
+        return newAccountNumber;
     }
 
     private String generateAccountNumber() {
+        return "TODO";
+    }
+
+    private String generateCustomerId() {
         return "TODO";
     }
 
